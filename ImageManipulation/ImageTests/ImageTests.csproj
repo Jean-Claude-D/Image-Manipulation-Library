@@ -48,6 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageTest.cs" />
+    <Compile Include="PgmSerializerTest.cs" />
+    <Compile Include="PixelTest.cs" />
+    <Compile Include="PnmSerializerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
