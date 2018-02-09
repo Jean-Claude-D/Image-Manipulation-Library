@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IImageSerialization.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="ImageUtilities.cs" />
+    <Compile Include="PgmSerializer.cs" />
+    <Compile Include="Pixel.cs" />
+    <Compile Include="PnmSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
