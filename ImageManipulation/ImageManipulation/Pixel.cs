@@ -79,18 +79,8 @@ namespace ImageManipulation
         /// for each color. This results in a greyscale pixel
         /// </summary>
         /// <param name="intensity">the intensity for each color</param>
-        public Pixel(int intensity)
-        {
-            if(!isInRange(intensity))
-            {
-                throw new ArgumentException(
-                    getIntensityExceptionMessage("grey", intensity));
-            }
-
-            this.Red = intensity;
-            this.Green = intensity;
-            this.Blue = intensity;
-        }
+        public Pixel(int intensity) : this(intensity, intensity, intensity)
+        { }
 
         /// <summary>
         /// Gets a well formatted exception message for
