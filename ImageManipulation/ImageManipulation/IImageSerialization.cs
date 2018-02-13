@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImageManipulation
 {
-    interface IImageSerialization
+    public interface IImageSerialization
     {
     }
 }
