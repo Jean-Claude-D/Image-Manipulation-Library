@@ -30,7 +30,6 @@ namespace ImageManipulation
             {
                 return new Pixel(data[i, j].Red, data[i, j].Green, data[i, j].Blue);
             }
-
             set
             {
                 data[i, j] = new Pixel(value.Red, value.Green, value.Blue);
@@ -45,8 +44,7 @@ namespace ImageManipulation
         /// <param name="pixel"></param>
         public Image(String metadata, int maxRange, Pixel[,] pixel)
         {
-            if (maxRange < 0)
-                throw new ArgumentException("The max range cannot be negative");
+            if (maxRange < 0) throw new ArgumentException("The max range cannot be negative");
 
             this.Metadata = metadata;
             this.MaxRange = maxRange;
@@ -99,9 +97,7 @@ namespace ImageManipulation
                     {
                         Pixel temp = data[i, j];
                         data[i, j] = data[i, data.GetLength(0) - j];
-                        data[i, data.GetLength(0) - j] = temp;
-
-                        
+                        data[i, data.GetLength(0) - j] = temp;                        
                     }
                 }
             }
