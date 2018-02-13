@@ -7,7 +7,27 @@ namespace ImageTests
     public class ImageTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void PixelIndexerTest()
+        {
+        }
+
+        [TestMethod]
+        public void ConstructorTest()
+        {
+        }
+
+        [TestMethod]
+        public void ToGreyTest()
+        {
+        }
+
+        [TestMethod]
+        public void FlipTest()
+        {
+        }
+
+        [TestMethod]
+        public void CropTest()
         {
         }
     }
