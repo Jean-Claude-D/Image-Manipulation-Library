@@ -10,7 +10,10 @@ namespace ImageTests
         [TestMethod]
         public void PixelColor_OneInvalidValue()
         {
-            Pixel pixel = new Pixel(0, 0, 0);
+            Pixel pixel;
+            Action action = delegate { pixel = new Pixel(256, 42, 42); };
+
+            Assert.ThrowsException<ArgumentException>(action);
         }
 
         [TestMethod]
