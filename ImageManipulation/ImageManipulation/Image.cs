@@ -44,8 +44,9 @@ namespace ImageManipulation
         /// <param name="pixel"></param>
         public Image(String metadata, int maxRange, Pixel[,] pixel)
         {
-            if (maxRange < 0) throw new ArgumentException("The max range cannot be negative");
-
+            if (maxRange < 0)  
+                throw new ArgumentException("The max range cannot be negative");
+            
             this.Metadata = metadata;
             this.MaxRange = maxRange;
 
