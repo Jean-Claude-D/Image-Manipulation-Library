@@ -22,13 +22,13 @@ namespace ImageManipulation
         }
 
         /// <summary>
-        /// 
+        /// Indexer for the Pixel array that makes up the whole image. Getter and setter both make deep copies.
         /// </summary>
         public Pixel this[int i, int j]
         {
             get
             {
-                return data[i,j];
+                return new Pixel(data[i, j].Red, data[i, j].Green, data[i, j].Blue);
             }
 
             set

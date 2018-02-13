@@ -6,16 +6,18 @@ namespace ImageTests
     [TestClass]
     public class ImageTest
     {
+
+        [TestMethod]
+        public void ConstructorTest()
+        { 
+
+        }
+
         [TestMethod]
         public void PixelIndexerTest()
         {
         }
-
-        [TestMethod]
-        public void ConstructorTest()
-        {
-        }
-
+        
         [TestMethod]
         public void ToGreyTest()
         {
