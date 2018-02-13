@@ -1,4 +1,5 @@
 ﻿using System;
+using ImageManipulation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ImageTests
@@ -9,6 +10,7 @@ namespace ImageTests
         [TestMethod]
         public void PixelColor_OneInvalidValue()
         {
+            Pixel pixel = new Pixel(0, 0, 0);
         }
 
         [TestMethod]
