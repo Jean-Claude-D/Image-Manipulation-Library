@@ -120,5 +120,27 @@ namespace ImageManipulation
         {
             return (this.Red + this.Green + this.Blue) / 3;
         }
+
+        /// <summary>
+        /// Checks whether this Pixel is equal to obj or not
+        /// </summary>
+        /// <param name="obj">the Object to compare with</param>
+        /// <returns>true if this Pixel is equal to obj,
+        /// false otherwise</returns>
+        public override bool Equals(object obj)
+        {
+            if(Object.ReferenceEquals(obj, null) ||
+                !(obj is Pixel))
+            {
+                return false;
+            }
+            else
+            {
+                Pixel pixelObj = obj as Pixel;
+                return (this.Red == pixelObj.Red) &&
+                    (this.Green == pixelObj.Green) &&
+                    (this.Blue == pixelObj.Blue);
+            }
+        }
     }
 }
