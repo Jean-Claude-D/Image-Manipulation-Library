@@ -188,7 +188,7 @@ namespace ImageTests
             return "2 2" + Environment.NewLine +
                 "255" + Environment.NewLine +
                 "0 0" + Environment.NewLine +
-                "0 0" + Environment.NewLine;
+                "0 0";
         }
     }
 }

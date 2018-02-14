@@ -26,63 +26,62 @@ namespace ImageManipulation
         public Image Parse(string imgData)
         {
             string formatRgx = '^' + formatSpec + '$';
-            string commentRgx = "^" + commentTag + ".+$";
-            string sizeRgx = @"^\d+\e\d+$";
+            string commentRgx = '^' + commentTag + ".+$";
+            string sizeRgx = @"^\d+ \d+$";
             string rangeRgx = @"^\d+$";
-            string pixelRgx = @"^{\d+\e?}+$";
+            string pixelRgx = @"^(:?\d+ ?)+$";
 
             //each line in the "file"
             string[] lines = imgData.Split
                 (new string[] { Environment.NewLine },
                 StringSplitOptions.None);
 
-            checkFormat(lines[0], formatRgx);
-
-            if (! Regex.IsMatch(lines[0], formatRgx))
-            {
-                throw new InvalidDataException
-                    ("Expected : " + formatRgx + Environment.NewLine + "" +
-                    "Actual : " + );
-            }
-            // second line should either contain a comment or the image size
-            else if(!Regex.IsMatch(lines[1], commentRgx) &&
-                !Regex.IsMatch(lines[1], sizeRgx))
-            {
-                throw new InvalidDataException("Expected : \'" +
-                    commentTag + "\' or WIDTH HEIGHT Actual : " + lines[0]);
-            }
+            //first line should be format specifier
+            checkFormat(lines[0], true, 0, formatRgx);
+            //second line should be either comment or size specifier
+            checkOneFormat(lines[1], true, 1, commentRgx, sizeRgx);
 
             string[] metadata = lines.Skip(1) //skip format specifier
-                .TakeWhile(line => line.ElementAt(0).ToString().Equals(commentTag))
-                .Select(comment => comment = comment.Substring(1)) //skip #
+                .TakeWhile(line => checkFormat(line, false, -1, commentRgx))
+                //take only metadata lines, line numbering is irrelevant here
+                .Select(comment => comment = comment.Substring(1)) //remove #
                 .ToArray();
 
-            if (lines[metadata.Length + 1].Equals(string.Empty))
-            {
-                throw new InvalidDataException
-                    ("Expected : WIDTH HEIGHT Actual : "+ lines[0]);
-            }
+            //line after comments should be size specifier
+            checkFormat(lines[metadata.Length + 1], true,
+                metadata.Length + 1, sizeRgx);
 
             int[] size = lines[metadata.Length + 1].Split(' ')
                 .Select(num => int.Parse(num))
                 .ToArray();
 
+            //line after size specifier should be range
+            checkFormat(lines[metadata.Length + 2], true,
+                metadata.Length + 2, rangeRgx);
+
             int maxRange = int.Parse(lines[metadata.Length + 2]);
 
-            int[] pixelsData = lines.Skip(metadata.Length + 3) //skip metadata and stuff
-                .Select(line => line.Split(' ')) //gives a collection of collection
-                .Select(nums => nums.Select(num => int.Parse(num)))
-                // parse each collection of collection
-                .SelectMany(list => list.ToArray()).ToArray();
-            //flatten the array
+            //the rest of the string should be filled with pixels
+            for(int i = metadata.Length + 3; i < lines.Length; i++)
+            {
+                checkFormat(lines[i], true, i, pixelRgx);
+            }
 
+            int[] pixelsData = lines.Skip(metadata.Length + 3) //skip metadata and stuff
+                .Select(line => line.Split(' ').Select(num => int.Parse(num)))
+                //parse each collection of collection
+                .SelectMany(list => list.ToArray()).ToArray();
+                //flatten the array
+
+            //checking amount of pixel corresponds to specified size
             if(pixelsData.Length != size[0] * size[1])
             {
                 throw new InvalidDataException("Expected size : " +
-                    size[0] * size[1] + ", Actual format : "
+                    size[0] * size[1] + ", Actual size : "
                     + pixelsData.Length);
             }
 
+            //filling the resulting Pixel rectangular array
             Pixel[,] pixels = new Pixel[size[0], size[1]];
             for(int i = 0; i < pixelsData.Length; i++)
             {
@@ -96,16 +95,48 @@ namespace ImageManipulation
         }
 
 
-        private void checkFormat(string actualStr, params string[] expectedRgx)
+        private bool checkFormat(string actualStr, bool throws , int lineNum, string expectedRgx)
         {
-            foreach(string rgx in expectedRgx)
+            if (!Regex.IsMatch(actualStr, expectedRgx))
             {
-                if (!Regex.IsMatch(actualStr, rgx))
+                if(throws)
                 {
                     throw new InvalidDataException
-                        ("Expected : " + expectedRgx + Environment.NewLine +
-                        "Actual : " + actualStr);
+                    ("Line " + lineNum + " expected : " + expectedRgx + Environment.NewLine +
+                    "Actual : " + actualStr);
                 }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool checkOneFormat(string actualStr, bool throws, int lineNum, params string[] expectedRgx)
+        {
+            string expectedAllStr = "";
+
+            foreach (string rgx in expectedRgx)
+            {
+                if (Regex.IsMatch(actualStr, rgx))
+                {
+                    return true;
+                }
+
+                expectedAllStr += rgx + Environment.NewLine;
+            }
+
+            if(throws)
+            {
+                throw new InvalidDataException
+                        ("Line " + lineNum + " expected : " + expectedAllStr +
+                        "Actual : " + actualStr);
+            }
+            else
+            {
+                return false;
             }
         }
     }
