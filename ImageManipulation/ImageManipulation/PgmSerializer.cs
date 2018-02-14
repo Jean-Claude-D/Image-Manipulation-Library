@@ -23,15 +23,16 @@ namespace ImageManipulation
         /// <returns></returns>
         public Image Parse(string imgData)
         {
+            string actualFormatSpec = imgData.Substring(0, imgData.IndexOf(Environment.NewLine));
+            if (!actualFormatSpec.ToLower().Equals(formatSpec.ToLower()))
+            {
+                throw new InvalidDataException("Expected format : " +
+                    formatSpec + " , Actual format : " + actualFormatSpec);
+            }
+
             string[] lines = imgData.Split
                 (new string[] { Environment.NewLine },
                 StringSplitOptions.RemoveEmptyEntries);
-
-            if(!lines[0].ToLower().Equals(formatSpec.ToLower()))
-            {
-                throw new InvalidDataException("Expected format : " +
-                    formatSpec + ", Actual format : " + lines[0]);
-            }
 
             string[] metadata = lines.Skip(1) //skip format specifier
                 .TakeWhile(line => line.ElementAt(0).Equals('#'))
