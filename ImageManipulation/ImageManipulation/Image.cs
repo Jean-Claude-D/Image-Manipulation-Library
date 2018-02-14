@@ -28,7 +28,7 @@ namespace ImageManipulation
         {
             get
             {
-                return new Pixel(data[i, j].Red, data[i, j].Green, data[i, j].Blue);
+                return data[i, j];
             }
             set
             {
@@ -131,14 +131,18 @@ namespace ImageManipulation
 
             Pixel[,] temp = new Pixel[endX - startX, endY - startY];
 
+            int xcount = startX;
+            int ycount = startY;
+
             for (int i = 0; i < temp.GetLength(0); i++)
             {
                 for (int j = 0; j < temp.GetLength(1); j++)
                 {
-                    temp[i, j] = data[startX, startY];
-                    startY++;
+                    temp[i, j] = this[xcount, ycount];
+                    ycount++;
                 }
-                startX++;
+                ycount = startY;
+                xcount++;
             }
             data = temp;
         }
