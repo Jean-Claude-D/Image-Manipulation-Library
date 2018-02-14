@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImageManipulation
 {
-    class PgmSerializer : IImageSerialization
+    public class PgmSerializer : IImageSerialization
     {
         private string formatSpec = "P2";
 
