@@ -94,11 +94,11 @@ namespace ImageManipulation
             {
                 for (int i = 0; i < data.GetLength(0); i++)
                 {
-                    for (int j = 0; j < data.GetLength(1); j++)
+                    for (int j = 0; j < data.GetLength(1)/2; j++)
                     {
                         Pixel temp = data[i, j];
-                        data[i, j] = data[i, data.GetLength(0) - j];
-                        data[i, data.GetLength(0) - j] = temp;                        
+                        data[i, j] = data[i, data.GetLength(1) - 1 - j];
+                        data[i, data.GetLength(1) - 1 - j] = temp;                        
                     }
                 }
             }
@@ -107,11 +107,11 @@ namespace ImageManipulation
             {
                 for (int i = 0; i < data.GetLength(1); i++)
                 {
-                    for (int j = 0; j < data.GetLength(0); j++)
+                    for (int j = 0; j < data.GetLength(0)/2; j++)
                     {
                         Pixel temp = data[j, i];
-                        data[j, i] = data[data.GetLength(0) - j, i];
-                        data[data.GetLength(0) - j, i] = temp;
+                        data[j, i] = data[data.GetLength(0) - 1 - j, i];
+                        data[data.GetLength(0) - 1 - j, i] = temp;
                     }
                 }
             }
@@ -141,6 +141,31 @@ namespace ImageManipulation
                 startX++;
             }
             data = temp;
+        }
+
+        public override Boolean Equals(Object obj)
+        {
+
+            if (!(obj is Image))
+            {
+                return false;
+            }
+            Image img = (Image)obj;
+
+            if (this.Metadata != img.Metadata || this.MaxRange != img.MaxRange ||
+                this.GetLength(0) != img.GetLength(0) || this.GetLength(1) != img.GetLength(1))
+            { 
+                return false;
+            }
+
+            for (int i = 0; i < this.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.GetLength(1); j++)
+                {
+                    if (!this[i, j].Equals(img[i, j])) return false;
+                }
+            }
+            return true;
         }
     }
 }
