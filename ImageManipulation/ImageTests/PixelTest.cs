@@ -86,5 +86,41 @@ namespace ImageTests
 
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void Equals_TwoIdenticalPixel()
+        {
+            Pixel a = new Pixel(42, 42, 42);
+            Pixel b = new Pixel(42, 42, 42);
+
+            Assert.AreEqual(a, b);
+        }
+
+        [TestMethod]
+        public void Equals_NotIdenticalPixel()
+        {
+            Pixel a = new Pixel(42, 42, 42);
+            Pixel b = new Pixel(42, 42, 43);
+
+            Assert.AreNotEqual(a, b);
+        }
+
+        [TestMethod]
+        public void Equals_OneNullValue()
+        {
+            Pixel a = new Pixel(42, 42, 42);
+            Pixel b = null;
+
+            Assert.AreNotEqual(a, b);
+        }
+
+        [TestMethod]
+        public void Equals_OneWrongTypeValue()
+        {
+            Pixel a = new Pixel(42, 42, 42);
+            Object b = "42";
+
+            Assert.AreNotEqual(a, b);
+        }
     }
 }
