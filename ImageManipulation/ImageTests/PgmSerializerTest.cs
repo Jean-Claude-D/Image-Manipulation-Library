@@ -9,10 +9,10 @@ namespace ImageTests
     public class PgmSerializerTest
     {
         [TestMethod]
-        public void Parse_ValidFormatSpecifier()
+        public void Parse_ValidParameters()
         {
             PgmSerializer ser = new PgmSerializer();
-            string imageStr = "P2" + Environment.NewLine +
+            string imageStr = getValidFormatSpecifier() +
                 getValidMetadata() + getValidPixelData();
             Image result = null;
 
@@ -91,6 +91,84 @@ namespace ImageTests
             Action parsing = delegate { result = ser.Parse(imageStr); };
 
             Assert.ThrowsException<InvalidDataException>(parsing);
+        }
+
+        [TestMethod]
+        public void Parse_NoComment()
+        {
+            PgmSerializer ser = new PgmSerializer();
+            string imageStr =
+                getValidFormatSpecifier() + getValidPixelData();
+            Image result = null;
+
+            result = ser.Parse(imageStr);
+
+            Assert.AreEqual(result.Metadata, string.Empty);
+        }
+
+        [TestMethod]
+        public void Parse_OneCommentLine()
+        {
+            PgmSerializer ser = new PgmSerializer();
+            string comment = "This is my single line comment";
+            string imageStr = getValidFormatSpecifier() + '#' +
+                comment + Environment.NewLine + getValidPixelData();
+            Image result = null;
+
+            result = ser.Parse(imageStr);
+
+            Assert.AreEqual(result.Metadata, comment);
+        }
+
+        [TestMethod]
+        public void Parse_UnCommentedCommentLine()
+        {
+            PgmSerializer ser = new PgmSerializer();
+            string comment = "This is my single line comment";
+            string imageStr = getValidFormatSpecifier() +
+                comment + Environment.NewLine + getValidPixelData();
+            Image result = null;
+            Action createInvalidImage = delegate { result = ser.Parse(imageStr); };
+
+            Assert.ThrowsException<InvalidDataException>(createInvalidImage);
+        }
+
+        [TestMethod]
+        public void Parse_CommentOnSameLineAsFormatSpecifier()
+        {
+            PgmSerializer ser = new PgmSerializer();
+            string imageStr = "P2 #This is my single line comment" +
+                Environment.NewLine + getValidPixelData();
+            Image result = null;
+            Action createInvalidImage = delegate { result = ser.Parse(imageStr); };
+
+            Assert.ThrowsException<InvalidDataException>(createInvalidImage);
+        }
+
+        [TestMethod]
+        public void Parse_BlankLineBetweenFormatSpecifierAndComment()
+        {
+            PgmSerializer ser = new PgmSerializer();
+            string imageStr = getValidFormatSpecifier() +
+                Environment.NewLine + getValidMetadata() +
+                getValidPixelData();
+            Image result = null;
+            Action createInvalidImage = delegate { result = ser.Parse(imageStr); };
+
+            Assert.ThrowsException<InvalidDataException>(createInvalidImage);
+        }
+
+        [TestMethod]
+        public void Parse_BlankLineBetweenCommentAndWidthHeight()
+        {
+            PgmSerializer ser = new PgmSerializer();
+            string imageStr = getValidFormatSpecifier() +
+                getValidMetadata() + Environment.NewLine +
+                getValidPixelData();
+            Image result = null;
+            Action createInvalidImage = delegate { result = ser.Parse(imageStr); };
+
+            Assert.ThrowsException<InvalidDataException>(createInvalidImage);
         }
 
         private string getValidFormatSpecifier()
