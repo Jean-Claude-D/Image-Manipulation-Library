@@ -72,6 +72,18 @@ namespace ImageManipulation
                 //parse each collection of collection
                 .SelectMany(list => list.ToArray()).ToArray();
                 //flatten the array
+            
+            //verify maxRange of each pixel
+            for(int i = 0; i < pixelsData.Length; i++)
+            {
+                if(pixelsData[i] > maxRange)
+                {
+                    throw new InvalidDataException
+                        ("Pixel " + i + " expected at most : " +
+                        maxRange + Environment.NewLine + "Actual : " +
+                        pixelsData[i]);
+                }
+            }
 
             //checking amount of pixel corresponds to specified size
             if(pixelsData.Length != size[0] * size[1])
