@@ -22,7 +22,15 @@ namespace ImageTests
             Console.WriteLine();
             pringPixels(result);
 
-            Assert.AreEqual(original, result);
+            Assert.AreEqual(original.Metadata, result.Metadata);
+            Assert.AreEqual(original.MaxRange, result.MaxRange);
+            for (int i = 0; i < original.GetLength(0); i++)
+            {
+                for (int j = 0; j < original.GetLength(1); j++)
+                {
+                    Assert.AreEqual(original[i, j], result[i, j]);
+                }
+            }
         }
 
         [TestMethod]
@@ -43,7 +51,15 @@ namespace ImageTests
             Console.WriteLine();
             pringPixels(result);
 
-            Assert.AreEqual(original, result);
+            Assert.AreEqual(original.Metadata, result.Metadata);
+            Assert.AreEqual(original.MaxRange, result.MaxRange);
+            for (int i = 0; i < original.GetLength(0); i++)
+            {
+                for (int j = 0; j < original.GetLength(1); j++)
+                {
+                    Assert.AreEqual(original[i, j], result[i, j]);
+                }
+            }
         }
 
         [TestMethod]
