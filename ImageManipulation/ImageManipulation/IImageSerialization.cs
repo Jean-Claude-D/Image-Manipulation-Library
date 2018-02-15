@@ -8,5 +8,7 @@ namespace ImageManipulation
 {
     public interface IImageSerialization
     {
+        string Serialize(Image img);
+        Image Parse(string imageData);
     }
 }
