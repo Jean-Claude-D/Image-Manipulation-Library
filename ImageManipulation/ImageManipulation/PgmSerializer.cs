@@ -13,16 +13,68 @@ namespace ImageManipulation
         private string formatSpec = "P2";
         private string commentTag = "#";
 
+        /// <summary>
+        /// Converts an Image object to a string
+        /// so it can be written to a file
+        /// </summary>
+        /// <param name="img">the Image to be converted</param>
+        /// <returns>the serialized Image</returns>
         public string Serialize(Image img)
         {
-            return "";
+            if(Object.ReferenceEquals(img, null))
+            {
+                throw new ArgumentException
+                    ("img cannot be null");
+            }
+
+            StringBuilder imgStr = new StringBuilder
+                (formatSpec + Environment.NewLine);
+
+            //splitting each line of the comment
+            string[] comments =
+                img.Metadata.Split(new string[] { Environment.NewLine },
+                StringSplitOptions.RemoveEmptyEntries);
+            foreach(string comment in comments)
+            {
+                imgStr.Append(commentTag +
+                    comment + Environment.NewLine);
+            }
+
+            int width = img.GetLength(0);
+            int height = img.GetLength(1);
+
+            imgStr.Append(width + " " + height
+                + Environment.NewLine);
+
+            imgStr.Append
+                (img.MaxRange + Environment.NewLine);
+
+            //Append the pixel data
+            for(int i = 0; i < height; i++)
+            {
+                for(int j = 0; j < width; j++)
+                {
+                    imgStr.Append(img[j, i].Grey());
+
+                    if(j + 1 < width)
+                    {
+                        imgStr.Append(' ');
+                    }
+                }
+                if (i + 1 < height)
+                {
+                    imgStr.Append(Environment.NewLine);
+                }
+            }
+
+            return imgStr.ToString();
         }
 
         /// <summary>
         /// Converts a string (usually from file) to an Image object
         /// </summary>
         /// <param name="imgData">the image data in string format</param>
-        /// <returns></returns>
+        /// <returns>the deserialized Image</returns>
         public Image Parse(string imgData)
         {
             string formatRgx = '^' + formatSpec + '$';
