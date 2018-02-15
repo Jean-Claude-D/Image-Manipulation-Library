@@ -145,6 +145,7 @@ namespace ImageManipulation
                 xcount++;
             }
             data = temp;
+            Console.WriteLine(data);
         }
 
         public override Boolean Equals(Object obj)
