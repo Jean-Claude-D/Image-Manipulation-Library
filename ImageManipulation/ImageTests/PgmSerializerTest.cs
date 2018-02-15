@@ -8,6 +8,82 @@ namespace ImageTests
     [TestClass]
     public class PgmSerializerTest
     {
+        [TestMethod]
+        public void Serialize_EmptyComment()
+        {
+            Image original = new Image("", 255, getValidPixelArray());
+            Image result;
+
+            result = ser.Parse(ser.Serialize(original));
+
+            pringPixels(original);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            pringPixels(result);
+
+            Assert.AreEqual(original, result);
+        }
+
+        [TestMethod]
+        public void Serialize_WithComment()
+        {
+            string comment = "This is my comment" + Environment.NewLine +
+                "It goes in an Image file" + Environment.NewLine +
+                "And is multi-line" + Environment.NewLine +
+                "Four lines to be exact";
+            Image original = new Image(comment, 255, getValidPixelArray());
+            Image result;
+
+            result = ser.Parse(ser.Serialize(original));
+
+            pringPixels(original);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            pringPixels(result);
+
+            Assert.AreEqual(original, result);
+        }
+
+        [TestMethod]
+        public void Serialize_NullImage()
+        {
+            Image img = null;
+            string result = null;
+            Action serializeNullImage = delegate { result = ser.Serialize(img); };
+
+            Assert.ThrowsException<ArgumentException>(serializeNullImage);
+        }
+
+        private Pixel[,] getValidPixelArray()
+        {
+            Pixel[,] pixels = new Pixel[9, 9];
+            Random rand = new Random();
+
+            for(int i = 0; i < pixels.GetLength(0); i++)
+            {
+                for(int j = 0; j < pixels.GetLength(1); j++)
+                {
+                    pixels[i, j] = new Pixel(rand.Next(0, 256));
+                }
+            }
+
+            return pixels;
+        }
+
+        private void pringPixels(Image img)
+        {
+            for(int i = 0; i < img.GetLength(0); i++)
+            {
+                for(int j = 0; j < img.GetLength(1); j++)
+                {
+                    Console.Write(img[i, j].Grey() + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+
         private static PgmSerializer ser = new PgmSerializer();
         [TestMethod]
         public void Parse_ValidParameters()
