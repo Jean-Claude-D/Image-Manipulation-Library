@@ -8,5 +8,14 @@ namespace ImageManipulation
 {
     class PgmSerializer : IImageSerialization
     {
+        public Image Parse(string imageData)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Serialize(Image img)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
