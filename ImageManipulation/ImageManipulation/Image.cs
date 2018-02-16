@@ -28,7 +28,7 @@ namespace ImageManipulation
         {
             get
             {
-                return data[i, j];
+                return new Pixel(data[i, j].Red, data[i, j].Green, data[i, j].Blue);
             }
             set
             {
