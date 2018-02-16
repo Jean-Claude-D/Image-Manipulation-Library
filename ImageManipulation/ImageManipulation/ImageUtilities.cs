@@ -25,10 +25,27 @@ namespace ImageManipulation
         /// <returns></returns>
         public Image[] LoadFolder(String path)
         {
-            String[] images = Directory.GetFiles(path);
+            PnmSerializer pnm = new PnmSerializer();
+            List<Image> imageList = new List<Image>();
+            String[] files = Directory.GetFiles(path);
+                        
+            foreach (String file in files)
+            {
+                using (StreamReader str = new StreamReader(file))
+                {
+                    if (Path.GetExtension(file).Equals("pnm"))
+                        imageList.Add(pnm.Parse(str.ReadLine()));
 
+                    if (Path.GetExtension(file).Equals("pgm"))
+                        imageList.Add(pnm.Parse(file));
+                }                    
+            }
+            Image[] images = new Image[imageList.Count];
 
-            return null;
+            for (int i = 0; i < images.Length; i++)
+                images[i] = imageList.ElementAt<Image>(i);
+            
+            return images;
         }
 
         /// <summary>
