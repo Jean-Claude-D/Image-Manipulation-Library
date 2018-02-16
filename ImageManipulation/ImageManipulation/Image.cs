@@ -44,6 +44,9 @@ namespace ImageManipulation
         /// <param name="pixel"></param>
         public Image(String metadata, int maxRange, Pixel[,] pixel)
         {
+            if (pixel == null)
+                throw new ArgumentException("The pixel array cannot be null");
+
             if (maxRange < 0)  
                 throw new ArgumentException("The max range cannot be negative");
             
@@ -55,6 +58,12 @@ namespace ImageManipulation
             {
                 for (int j = 0; j < pixel.GetLength(1); j++)
                 {
+                    if (pixel[i, j] == null)
+                        throw new ArgumentException("The pixel array is not filled to capacity");
+
+                    if (pixel[i, j].Red > maxRange || pixel[i, j].Green > maxRange || pixel[i, j].Blue > maxRange)
+                        throw new ArgumentException("The pixel " + pixel[i, j] + " does not respect given max range.");
+
                     this[i,j] = pixel[i,j];
                 }
             } 
