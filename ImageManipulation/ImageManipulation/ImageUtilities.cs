@@ -9,6 +9,9 @@ namespace ImageManipulation
 {
     public class ImageUtilities
     {
+        IImageSerialization pnm = new PnmSerializer();
+        IImageSerialization pgm = new PgmSerializer();
+
         /// <summary>
         /// Loads images from folder
         /// 
@@ -25,11 +28,15 @@ namespace ImageManipulation
         /// <returns></returns>
         public Image[] LoadFolder(String path)
         {
-            PnmSerializer pnm = new PnmSerializer();
-            PgmSerializer pgm = new PgmSerializer();
+            if (path == null)
+                throw new ArgumentException("Path cannot be null");
+
+            if (!Directory.Exists(path))
+                throw new ArgumentException("Path was not found");
+
             List<Image> imageList = new List<Image>();
             String[] files = Directory.GetFiles(path);
-                        
+
             foreach (String file in files)
             {
                 using (StreamReader str = new StreamReader(file))
@@ -39,14 +46,9 @@ namespace ImageManipulation
 
                     if (Path.GetExtension(file).Equals("pgm"))
                         imageList.Add(pgm.Parse(str.ReadLine()));
-                }                    
+                }
             }
-            Image[] images = new Image[imageList.Count];
-
-            for (int i = 0; i < images.Length; i++)
-                images[i] = imageList.ElementAt<Image>(i);
-            
-            return images;
+            return imageList.ToArray();
         }
 
         /// <summary>
@@ -68,8 +70,27 @@ namespace ImageManipulation
             if (!format.Equals("pnm") || !format.Equals("pgm"))
                 throw new ArgumentException("Invalid format");
 
-            
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            IImageSerialization sFormat = format.Equals("pnm") ? pnm : pgm;
+            this.SaveFormat(images, path, sFormat, format);
         }
 
+        private void SaveFormat(Image[] images, String path, IImageSerialization format, String ext)
+        {
+            int filenum = 1;
+            String filename = "image" + filenum + "." + ext;
+            foreach (Image img in images)
+            {
+                using (StreamWriter str = new StreamWriter(new FileStream(path, FileMode.Create, FileAccess.Write)))
+
+                {
+                    String data = format.Serialize(img);
+                }
+            }                
+            
+        }
     }
 }
+
