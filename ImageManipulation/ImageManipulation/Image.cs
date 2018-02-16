@@ -162,6 +162,10 @@ namespace ImageManipulation
 
         public override Boolean Equals(Object obj)
         {
+            if (obj == null)
+            {
+                return false;
+            }
 
             if (!(obj is Image))
             {

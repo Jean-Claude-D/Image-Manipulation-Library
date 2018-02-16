@@ -141,5 +141,26 @@ namespace ImageTests
             Image expected = new Image("ey", 255, pixels);
             Assert.AreEqual(expected, result);
         }
+
+        [TestMethod]
+        public void ImageCropTest0000()
+        {
+            Pixel[,] pixel = {  { new Pixel(124), new Pixel(185), new Pixel(170), new Pixel(122) },
+                                { new Pixel(170), new Pixel(122), new Pixel(222), new Pixel(115) },
+                                { new Pixel(123), new Pixel(167), new Pixel(170), new Pixel(122) },
+                                { new Pixel(170), new Pixel(122), new Pixel(124), new Pixel(185) },
+                                { new Pixel(124), new Pixel(185), new Pixel(170), new Pixel(122) },
+                                { new Pixel(170), new Pixel(122), new Pixel(222), new Pixel(115) },
+                                { new Pixel(123), new Pixel(167), new Pixel(170), new Pixel(122) },
+                                { new Pixel(170), new Pixel(122), new Pixel(124), new Pixel(185) } };
+
+            Image result = new Image("ey", 255, pixel);
+            result.Crop(0, 0, 0, 0);
+
+            Pixel[,] pixels = { };
+
+            Image expected = new Image("ey", 255, pixels);
+            Assert.AreEqual(expected, result);
+        }
     }
 }
