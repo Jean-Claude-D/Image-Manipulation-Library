@@ -8,6 +8,45 @@ namespace ImageTests
     public class ImageTest
     {
         [TestMethod]
+        public void ImageConstructorNotFilledToCapTest()
+        {
+            Pixel[,] pixels = { { new Pixel(111, 222, 222), new Pixel(123,134,115) },
+                                 { null, new Pixel(222,123,167) } };
+
+            Action action = delegate { new Image("ey", 255, pixels); };
+            Assert.ThrowsException<ArgumentException>(action);
+        }
+
+        [TestMethod]
+        public void ImageConstructorMaxRangeUnder0Test()
+        {
+            Pixel[,] pixels = { { new Pixel(111, 222, 222), new Pixel(123,134,115) },
+                                 { new Pixel(222,123,167), new Pixel(222,123,167) } };
+
+            Action action = delegate { new Image("ey", -1, pixels); };
+            Assert.ThrowsException<ArgumentException>(action);
+        }
+
+        [TestMethod]
+        public void ImageConstructorNullPixelArrayTest()
+        {
+            Action action = delegate { new Image("ey", 255, null); };
+            Assert.ThrowsException<ArgumentException>(action);
+        }
+
+        [TestMethod]
+        public void ImageConstructorNullMetadataTest()
+        {
+            Pixel[,] pixels = { { new Pixel(111, 222, 222), new Pixel(123,134,115) },
+                                 { new Pixel(134,111,123), new Pixel(222,123,167) } };
+
+            Image result = new Image(null, 255, pixels);
+            Image expected = new Image("", 255, pixels);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
         public void ImageToGreyTest()
         {
             Pixel[,] pixels = { { new Pixel(111, 222, 222), new Pixel(123,134,115) },
