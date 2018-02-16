@@ -126,7 +126,8 @@ namespace ImageManipulation
         /// <param name="endY"></param>
         public void Crop(int startX, int startY, int endX, int endY)
         {
-            if (startX > endX || startY > endY || startX < 0 || startY < 0 || endX > data.GetLength(0) || endY > data.GetLength(1))
+            if (startX > endX || startY > endY || startX < 0 || startY < 0 
+                || endX > data.GetLength(0) || endY > data.GetLength(1))
                 throw new ArgumentException("Invalid input");
 
             Pixel[,] temp = new Pixel[endX - startX, endY - startY];
@@ -137,15 +138,14 @@ namespace ImageManipulation
             for (int i = 0; i < temp.GetLength(0); i++)
             {
                 for (int j = 0; j < temp.GetLength(1); j++)
-                {
-                    temp[i, j] = this[xcount, ycount];
+                {                 
+                    temp[i, j] = data[xcount, ycount];
                     ycount++;
                 }
                 ycount = startY;
                 xcount++;
             }
             data = temp;
-            Console.WriteLine(data);
         }
 
         public override Boolean Equals(Object obj)
@@ -157,8 +157,11 @@ namespace ImageManipulation
             }
             Image img = (Image)obj;
 
-            if (this.Metadata != img.Metadata || this.MaxRange != img.MaxRange ||
-                this.GetLength(0) != img.GetLength(0) || this.GetLength(1) != img.GetLength(1))
+            if (!this.Metadata.Equals(img.Metadata) || !this.MaxRange.Equals(img.MaxRange))
+            {
+                return false;
+            }
+            if (!this.GetLength(0).Equals(img.GetLength(0)) || !this.GetLength(1).Equals(img.GetLength(1)))
             { 
                 return false;
             }
