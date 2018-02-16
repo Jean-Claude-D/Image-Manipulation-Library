@@ -8,23 +8,23 @@ namespace ImageTests
     public class ImageTest
     {
         [TestMethod]
-        public void ToGreyTest()
+        public void ImageToGreyTest()
         {
             Pixel[,] pixels = { { new Pixel(111, 222, 222), new Pixel(123,134,115) },
-                {new Pixel(134,111,123), new Pixel(222,123,167) } };
+                                 { new Pixel(134,111,123), new Pixel(222,123,167) } };
 
             Image result = new Image("ey", 255, pixels);
             result.ToGrey();
 
             Pixel[,] pixel = { { new Pixel(185), new Pixel(124) },
-                {new Pixel(122), new Pixel(170) } };
+                                { new Pixel(122), new Pixel(170) } };
 
             Image expected = new Image("ey", 255, pixel);
             Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
-        public void FlipHorizontalEvenTest()
+        public void ImageFlipHorizontalEvenTest()
         {
             Pixel[,] pixels = { { new Pixel(185), new Pixel(124) },
                                  { new Pixel(122), new Pixel(170) } };
@@ -40,7 +40,7 @@ namespace ImageTests
         }
 
         [TestMethod]
-        public void FlipHorizontalUnevenTest()
+        public void ImageFlipHorizontalUnevenTest()
         {
             Pixel[,] pixels = { { new Pixel(185), new Pixel(124), new Pixel(170) },
                                  { new Pixel(122), new Pixel(170), new Pixel(124) } };
@@ -56,7 +56,7 @@ namespace ImageTests
         }
 
         [TestMethod]
-        public void FlipVerticalEvenTest()
+        public void ImageFlipVerticalEvenTest()
         {
             Pixel[,] pixels = { { new Pixel(185), new Pixel(124) },
                                  { new Pixel(122), new Pixel(170) } };
@@ -73,7 +73,7 @@ namespace ImageTests
 
 
         [TestMethod]
-        public void FlipVerticalUnevenTest()
+        public void ImageFlipVerticalUnevenTest()
         {
             Pixel[,] pixels = { { new Pixel(124), new Pixel(185) },
                                  { new Pixel(170),  new Pixel(122) },
@@ -92,7 +92,7 @@ namespace ImageTests
 
 
         [TestMethod]
-        public void CropTestCorner()
+        public void ImageCropTestCorner()
         {
             Pixel[,] pixels = new Pixel[10, 10];
             for (int i = 0; i < pixels.GetLength(0); i++)
@@ -118,22 +118,21 @@ namespace ImageTests
         }
 
         [TestMethod]
-        public void CropMiddleTest()
+        public void ImageCropMiddleTest()
         {
-            Pixel[,] pixel = { { new Pixel(124), new Pixel(185), new Pixel(170), new Pixel(122) },
+            Pixel[,] pixel = {  { new Pixel(124), new Pixel(185), new Pixel(170), new Pixel(122) },
                                 { new Pixel(170), new Pixel(122), new Pixel(222), new Pixel(115) },
                                 { new Pixel(123), new Pixel(167), new Pixel(170), new Pixel(122) },
                                 { new Pixel(170), new Pixel(122), new Pixel(124), new Pixel(185) },
                                 { new Pixel(124), new Pixel(185), new Pixel(170), new Pixel(122) },
                                 { new Pixel(170), new Pixel(122), new Pixel(222), new Pixel(115) },
                                 { new Pixel(123), new Pixel(167), new Pixel(170), new Pixel(122) },
-                                { new Pixel(170), new Pixel(122), new Pixel(124), new Pixel(185) }};
+                                { new Pixel(170), new Pixel(122), new Pixel(124), new Pixel(185) } };
 
             Image result = new Image("ey", 255, pixel);
             result.Crop(1, 1, 6, 3);
 
-            Pixel[,] pixels = { 
-                                { new Pixel(122), new Pixel(222) },
+            Pixel[,] pixels = { { new Pixel(122), new Pixel(222) },
                                 { new Pixel(167), new Pixel(170) },
                                 { new Pixel(122), new Pixel(124) },
                                 { new Pixel(185), new Pixel(170) },

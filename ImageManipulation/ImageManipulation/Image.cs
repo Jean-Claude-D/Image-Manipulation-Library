@@ -37,7 +37,7 @@ namespace ImageManipulation
         }
 
         /// <summary>
-        /// 
+        /// Constructor creates deep copy of pixel array
         /// </summary>
         /// <param name="metadata"></param>
         /// <param name="maxRange"></param>
@@ -61,7 +61,7 @@ namespace ImageManipulation
         }
 
         /// <summary>
-        /// 
+        /// GetLength for image indexer
         /// </summary>
         /// <param name="rank"></param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace ImageManipulation
         }
 
         /// <summary>
-        /// 
+        /// Convert the image to gray
         /// </summary>
         public void ToGrey()
         {
@@ -85,7 +85,7 @@ namespace ImageManipulation
         }
 
         /// <summary>
-        /// 
+        /// Flips the image horizontally or vertically
         /// </summary>
         /// <param name="horizontal"></param>
         public void Flip(Boolean horizontal)
@@ -118,7 +118,7 @@ namespace ImageManipulation
         }
 
         /// <summary>
-        /// 
+        /// Crops image to given size
         /// </summary>
         /// <param name="startX"></param>
         /// <param name="startY"></param>
