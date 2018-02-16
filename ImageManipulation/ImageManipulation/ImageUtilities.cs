@@ -26,6 +26,7 @@ namespace ImageManipulation
         public Image[] LoadFolder(String path)
         {
             PnmSerializer pnm = new PnmSerializer();
+            PgmSerializer pgm = new PgmSerializer();
             List<Image> imageList = new List<Image>();
             String[] files = Directory.GetFiles(path);
                         
@@ -37,7 +38,7 @@ namespace ImageManipulation
                         imageList.Add(pnm.Parse(str.ReadLine()));
 
                     if (Path.GetExtension(file).Equals("pgm"))
-                        imageList.Add(pnm.Parse(file));
+                        imageList.Add(pgm.Parse(str.ReadLine()));
                 }                    
             }
             Image[] images = new Image[imageList.Count];
