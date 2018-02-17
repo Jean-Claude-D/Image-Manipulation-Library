@@ -33,13 +33,23 @@ namespace ImageManipulation
                 using (StreamReader str = new StreamReader(file))
                 {
                     if (Path.GetExtension(file).Equals(".pnm"))
-                        imageList.Add(pnm.Parse(str.ReadLine()));
+                        imageList.Add(ConcatenateParseString(str, pnm));
 
                     if (Path.GetExtension(file).Equals(".pgm"))
-                        imageList.Add(pgm.Parse(str.ReadLine()));
+                        imageList.Add(ConcatenateParseString(str, pgm));
                 }
             }
             return imageList.ToArray();
+        }
+
+        private Image ConcatenateParseString(StreamReader str, IImageSerialization format)
+        {
+            String image = "";
+            while (str.Peek() != -1)
+            {
+                image = image + str.ReadLine();
+            }
+            return format.Parse(image);
         }
 
         /// <summary>
