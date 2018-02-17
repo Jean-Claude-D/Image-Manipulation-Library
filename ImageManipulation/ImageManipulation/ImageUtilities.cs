@@ -32,10 +32,10 @@ namespace ImageManipulation
             {
                 using (StreamReader str = new StreamReader(file))
                 {
-                    if (Path.GetExtension(file).Equals("pnm"))
+                    if (Path.GetExtension(file).Equals(".pnm"))
                         imageList.Add(pnm.Parse(str.ReadLine()));
 
-                    if (Path.GetExtension(file).Equals("pgm"))
+                    if (Path.GetExtension(file).Equals(".pgm"))
                         imageList.Add(pgm.Parse(str.ReadLine()));
                 }
             }
