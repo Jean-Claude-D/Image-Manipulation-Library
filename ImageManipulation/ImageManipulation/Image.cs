@@ -48,7 +48,7 @@ namespace ImageManipulation
                 throw new ArgumentException("The pixel array cannot be null");
 
             if (metadata == null)
-                this.Metadata = "";
+                metadata = "";
 
             if (maxRange < 0)  
                 throw new ArgumentException("The max range cannot be negative");
