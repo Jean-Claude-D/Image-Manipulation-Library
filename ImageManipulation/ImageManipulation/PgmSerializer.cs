@@ -88,6 +88,14 @@ namespace ImageManipulation
                 (new string[] { Environment.NewLine },
                 StringSplitOptions.None);
 
+            //the minimum length of any pgm file is 4 lines
+            if (lines.Length < 4)
+            {
+                throw new InvalidDataException
+                    ("Invalid number of lines " + lines.Length +
+                    " is not enough");
+            }
+
             //first line should be format specifier
             checkFormat(lines[0], true, 0, formatRgx);
             //second line should be either comment or size specifier
