@@ -63,14 +63,14 @@ namespace ImageManipulation
         private void SaveFormat(Image[] images, String path, IImageSerialization format, String ext)
         {
             int filenum = 1;
-            String filename = path + "image" + filenum + "." + ext;
             foreach (Image img in images)
             {
-                using (StreamWriter str = new StreamWriter(new FileStream(filename, FileMode.Create, FileAccess.Write)))
+                using (StreamWriter str = new StreamWriter(new FileStream(path + "image" + filenum + "." + ext, FileMode.Create, FileAccess.Write)))
 
                 {
                     String data = format.Serialize(img);
                     str.WriteLine(data);
+                    filenum++;
                 }
             } 
         }
